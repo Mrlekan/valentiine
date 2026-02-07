@@ -50,6 +50,8 @@ button {
     border-radius: 30px;
     font-size: 18px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 #yesBtn {
@@ -98,6 +100,56 @@ button {
     bottom: 40px;
     font-size: 28px;
     font-family: 'Playfair Display', serif;
+    color: #ff9ac4;
+}
+
+/* Close button */
+#closeBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff2d75;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+#closeBtn:hover {
+    transform: scale(1.1);
+}
+
+/* Heart animation */
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    animation: rise 1s forwards;
+}
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+}
+.heart::before {
+    top: -10px;
+    left: 0;
+}
+.heart::after {
+    top: 0;
+    left: -10px;
+}
+
+@keyframes rise {
+    0% { opacity: 1; transform: translate(0,0) rotate(45deg) scale(1); }
+    100% { opacity: 0; transform: translate(0,-150px) rotate(45deg) scale(1.5); }
 }
 </style>
 </head>
@@ -109,7 +161,7 @@ button {
     <img src="photo.jpg" alt="Our Photo" class="photo">
 
     <p>
-        Mrs. Osikoya, I had already planned to ask you to be my Valentine through this medium,
+        Lotus, I had already planned to ask you to be my Valentine through this medium,
         but work delayed me. I’m truly grateful for all you do for us, and I pray that we
         continue to enjoy a beautiful life together—now and always.
     </p>
@@ -117,7 +169,7 @@ button {
     <h2>Will you be my Valentine?</h2>
     <p class="note">Note: If you successfully click "No", you win ₦500,000 cash 😅</p>
 
-    <button id="yesBtn" onclick="startSlideshow()">Yes 💖</button>
+    <button id="yesBtn" onclick="yesClicked(event)">Yes 💖</button>
     <button id="noBtn" onmouseover="moveButton()">No 😅</button>
 </div>
 
@@ -129,14 +181,36 @@ button {
     <img src="memory4.jpg" class="slide">
 
     <div class="loveText">I love you forever ❤️</div>
+    <button id="closeBtn" onclick="closeSlideshow()">Close ✖</button>
 </div>
 
 <script>
+let slideshowInterval;
+
 function moveButton() {
     let btn = document.getElementById("noBtn");
     let x = Math.random() * 200 - 100;
     let y = Math.random() * 200 - 100;
     btn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+// Heart animation on Yes
+function yesClicked(e) {
+    createHearts(e);
+
+    // Start slideshow after a short delay
+    setTimeout(startSlideshow, 500);
+}
+
+function createHearts(e) {
+    for(let i=0;i<10;i++){
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = `${e.clientX + (Math.random()*50-25)}px`;
+        heart.style.top = `${e.clientY + (Math.random()*50-25)}px`;
+        document.body.appendChild(heart);
+        setTimeout(()=> heart.remove(), 1000);
+    }
 }
 
 function startSlideshow() {
@@ -147,11 +221,17 @@ function startSlideshow() {
     let slides = document.querySelectorAll(".slide");
     let index = 0;
 
-    setInterval(() => {
+    slideshowInterval = setInterval(() => {
         slides[index].classList.remove("active");
         index = (index + 1) % slides.length;
         slides[index].classList.add("active");
     }, 3000);
+}
+
+function closeSlideshow() {
+    document.getElementById("slideshow").style.display = "none";
+    document.getElementById("mainBox").style.display = "block";
+    clearInterval(slideshowInterval); // Stop slideshow
 }
 </script>
 
