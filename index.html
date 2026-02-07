@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a, #3a0d2e);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+.box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255, 0, 100, 0.3);
+    max-width: 500px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+}
+
+.photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px 0;
+    border: 4px solid rgba(255,255,255,0.5);
+    box-shadow: 0 0 20px rgba(255, 0, 120, 0.6);
+}
+
+button {
+    padding: 12px 28px;
+    margin: 12px;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#yesBtn {
+    background: linear-gradient(45deg, #ff2d75, #ff6a95);
+    color: white;
+}
+
+#noBtn {
+    background: #444;
+    color: white;
+    position: relative;
+}
+
+.note {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Slideshow */
+#slideshow {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.slide {
+    position: absolute;
+    width: 80%;
+    max-width: 700px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.2);
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.loveText {
+    position: absolute;
+    bottom: 40px;
+    font-size: 28px;
+    font-family: 'Playfair Display', serif;
+}
+</style>
+</head>
+<body>
+
+<div class="box" id="mainBox">
+    <h1>Hi Omoyeni ❤️</h1>
+
+    <img src="photo.jpg" alt="Our Photo" class="photo">
+
+    <p>
+        Mrs. Osikoya, I had already planned to ask you to be my Valentine through this medium,
+        but work delayed me. I’m truly grateful for all you do for us, and I pray that we
+        continue to enjoy a beautiful life together—now and always.
+    </p>
+
+    <h2>Will you be my Valentine?</h2>
+    <p class="note">Note: If you successfully click "No", you win ₦500,000 cash 😅</p>
+
+    <button id="yesBtn" onclick="startSlideshow()">Yes 💖</button>
+    <button id="noBtn" onmouseover="moveButton()">No 😅</button>
+</div>
+
+<!-- Slideshow -->
+<div id="slideshow">
+    <img src="memory1.jpg" class="slide active">
+    <img src="memory2.jpg" class="slide">
+    <img src="memory3.jpg" class="slide">
+    <img src="memory4.jpg" class="slide">
+
+    <div class="loveText">I love you forever ❤️</div>
+</div>
+
+<script>
+function moveButton() {
+    let btn = document.getElementById("noBtn");
+    let x = Math.random() * 200 - 100;
+    let y = Math.random() * 200 - 100;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function startSlideshow() {
+    document.getElementById("mainBox").style.display = "none";
+    let slideshow = document.getElementById("slideshow");
+    slideshow.style.display = "flex";
+
+    let slides = document.querySelectorAll(".slide");
+    let index = 0;
+
+    setInterval(() => {
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+    }, 3000);
+}
+</script>
+
+</body>
+</html>
